@@ -5,67 +5,84 @@
  */
 package edtrabalho2;
 
+import java.util.Scanner;
+
 /**
  *
  * @author Felipe
  */
 public class Gerenciador {
 
+    static Scanner valor = new Scanner (System.in);
+    
     public static void main(String[] args) {
         ABB tree = new ABB();
-        tree.insere("8");
-        tree.insere("2");
-        tree.insere("5");
-        tree.insere("7");
-        tree.insere("9");
-        tree.insere("3");
-        tree.insereR("11");
-        tree.insereR("10");
-        tree.insereR("6");
-        System.out.println(tree);
-        System.out.println("Pré-ordem");
-        tree.preOrdem();
-        System.out.println("\nIn-ordem");
-        tree.inOrdem();
-        System.out.println("\nPos-ordem");
-        tree.posOrdem();
-        System.out.println("");
-        String num = "7";
-        if(tree.buscaR(num) != null){
-            System.out.println("Achou " + tree.buscaIt(num).getElemento() );
-        } else {
-            System.out.println("Não achou");
+        System.out.println("Digite uma frase: ");
+        String frase = valor.nextLine();
+        
+        String[] divisor = dividirEmPalavras(frase);
+        for (int i = 0; i < divisor.length; i++){
+            if(!divisor[i].equals(" ")){
+                tree.insere(divisor[i]);
+            }
+            
         }
-        num = "4";
-        if(tree.buscaR(num) != null){
-            System.out.println("Achou " + tree.buscaIt(num).getElemento() );
-        } else {
-            System.out.println("Não achou");
+        boolean sair = false;
+        
+        while(sair == false){
+            System.out.println("Escolha uma opção");
+            System.out.println("1- Imprimir pré-ordem");
+            System.out.println("2- Imprimir in-ordem");
+            System.out.println("3- Imprimir pós-ordem");
+            System.out.println("4- Sair do menu");
+            int opcao = valor.nextInt();
+            
+            switch(opcao){
+            case 1:
+                tree.preOrdem();
+                break;
+            case 2:
+                tree.inOrdem();
+                break;
+            case 3:
+                tree.posOrdem();
+                break;
+            case 4:
+                sair = true;
+                break;
+            default:
+                System.out.println("Entrada inválida");
+                
+         
+            }
         }
         
-        System.out.println("A árvore possui " + tree.contaNos() + " nós");
-        System.out.println("A árvore possui altura " + tree.altura());
-        tree.inOrdemFolha();
-        System.out.println("");
-        System.out.println("O menor nó é " + tree.menorIt().getElemento());
-        System.out.println("O maior nó é " + tree.maiorR().getElemento());
+    }
+    
+    private static String[] dividirEmPalavras(String texto) {
+        String separadoraDePalavras = "special" + System.currentTimeMillis() + "divider";
+        String resultado = "";
+        String palavraAtual = "";
+        for (int i = 0; i < texto.length(); i++) {
+            char caracterAtual = texto.charAt(i);
+            boolean ehLetraOuNumero = Character.isLetter(caracterAtual) || Character.isDigit(caracterAtual);
+            if (ehLetraOuNumero) {
+                palavraAtual += caracterAtual;
+            } else {
+                if (palavraAtual.length() > 0) {
+                    resultado += palavraAtual;
+                    resultado += separadoraDePalavras;
+                    palavraAtual = "";
+                }
+
+                resultado += caracterAtual;
+                if (i < texto.length() - 1) {
+                    resultado += separadoraDePalavras;
+                }
+            }
+        }
         
-        System.out.println("Removendo o nó 6 " + tree.remove("6")); // Nó folha
-        tree.inOrdem();
-        System.out.println("");
-        
-        System.out.println("Removendo o nó 9 " + tree.remove("9")); // Nó com 1 filho
-        tree.inOrdem();
-        System.out.println("");
-        
-        System.out.println("Removendo o nó 8 " + tree.remove("8")); // Nó com 2 filhos
-        tree.inOrdem();
-        System.out.println("");
-        
-        System.out.println("Removendo o nó 4 " + tree.remove("4")); // Nó que não existe
-        tree.inOrdem();
-        System.out.println("");
-        
+        return resultado.split(separadoraDePalavras);
     }
     
 }

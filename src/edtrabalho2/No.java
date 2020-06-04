@@ -12,6 +12,7 @@ package edtrabalho2;
 public class No {
     
     private String elemento;
+    private int contador;
     private No esq;
     private No dir;
 
@@ -43,6 +44,16 @@ public class No {
         this.elemento = elemento;
         this.esq = esq;
         this.dir = dir;
+        this.contador = 1;
+    }
+    
+    
+    public int getContador() {
+        return contador;
+    }
+
+    public void setContador(int contador) {
+        this.contador = contador;
     }
 
     @Override

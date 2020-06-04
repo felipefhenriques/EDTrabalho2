@@ -21,17 +21,19 @@ public class ABB {
     public void insere(String elemento) {
         No pai = null;
         No p = raiz;
-        No novo = new No(elemento, null, null);
-
+        No novo = buscaIt(elemento);
+        if(novo != null)
+            novo.setContador(novo.getContador()+1);
+            
+         else {
+            novo = new No(elemento, null, null);
         while (p != null) {
             pai = p;
             if (elemento.compareToIgnoreCase(p.getElemento()) < 0) 
                 p = p.getEsq();
              else 
-                p = p.getDir();
-            
+                p = p.getDir();   
         }
-
         if (pai == null) 
             raiz = novo;
          else 
@@ -39,33 +41,8 @@ public class ABB {
             pai.setEsq(novo);
          else 
             pai.setDir(novo);
-        
-    }
-
-    public void insereR(String elemento) {
-        No novo = new No(elemento, null, null);
-
-        if (raiz == null) {
-            raiz = novo;
-        } else {
-            insereR(raiz, novo);
         }
-
-    }
-
-    private void insereR(No p, No novo) {
-        if (novo.getElemento().compareToIgnoreCase(p.getElemento()) < 0)
-            if (p.getEsq() == null) //Se for folha
-                p.setEsq(novo);
-            else 
-                insereR(p.getEsq(), novo);
-        else 
-            if (p.getDir() == null) //Se for folha
-                p.setDir(novo);
-            else 
-                insereR(p.getDir(), novo);
-    }
-    
+    }  
     
     public void preOrdem(){
         preOrdem(raiz);
@@ -73,7 +50,7 @@ public class ABB {
     
     private void preOrdem(No p){
         if(p!= null){
-            System.out.print(p.getElemento() + " ");
+            System.out.println(p.getElemento() + " " + "(" + p.getContador() + ")");
             preOrdem(p.getEsq());
             preOrdem(p.getDir());
         }
@@ -86,7 +63,7 @@ public class ABB {
     private void inOrdem(No p){
         if(p!= null){
             inOrdem(p.getEsq());
-            System.out.print(p.getElemento() + " ");
+            System.out.println(p.getElemento() + " " + "(" + p.getContador() + ")");
             inOrdem(p.getDir());
         }
     }
@@ -99,7 +76,7 @@ public class ABB {
         if(p!= null){
             posOrdem(p.getEsq());
             posOrdem(p.getDir());
-            System.out.print(p.getElemento() + " ");
+            System.out.println(p.getElemento() + " " + "(" + p.getContador() + ")" );
         }
     }
     
@@ -168,7 +145,7 @@ public class ABB {
         if(p!= null){
             inOrdemFolha(p.getEsq());
             if(p.getEsq() == null && p.getDir() == null)
-                System.out.print(p.getElemento() + " ");
+                System.out.print(p.getElemento() + " " + "(" + p.getContador() + ")");
             inOrdemFolha(p.getDir());
         }
     } 
